@@ -1,38 +1,33 @@
-// este numero es el que el juego tira al azar para adivinar
-const numeroAzar = Math.floor(Math.random()*100)+1;
-const numeroEntrada = document.getElementById('numeroEntrada');
-const mensaje = document.getElementById("mensaje");
-const intento = document.getElementById("intento");
-let intentos = 0 ;
+import {barcelona, roma, paris, londres} from './ciudades.js'
+
+let enlaces = document.querySelectorAll('a');
+let tituloElemento = document.getElementById('titulo');
+let subTituloElemento = document.getElementById('subtitulo');
+let parrafoElemento = document.getElementById('parrafo');
+
+enlaces.forEach(function(enlace){
+    enlace.addEventListener('click',function (){
+        enlaces.forEach(function(enlace){
+            enlace.classList.remove('active');
+        })
+
+        enlace.classList.add('active');
+
+        let contenido = obtenerContenido(this.textContent)
+
+        tituloElemento.innerHTML = contenido.titulo;
+        subTituloElemento.innerHTML = contenido.subtitulo;
+        parrafoElemento.innerHTML = contenido.parrafo;
+    })
+})
 
 
-function chequearResultado(){
-     intentos++;
-     intento.textContent = intentos;
-
-     let numeroIngresado = parseInt(numeroEntrada.value);
-
-     if (numeroIngresado < 1 || numeroIngresado > 100 || isNaN(numeroIngresado)){
-          mensaje.textContent = "Por favor ingrese un numero valido entre 1 y 100";
-          mensaje.style.color = "red";
-          return;
-     }
-
-     if (numeroIngresado === numeroAzar){
-          mensaje.textContent = "Felicitaciones, acertaste el numero";
-          mensaje.style.color = "green";
-          numeroEntrada.disabled = true;
-          return;
-     }
-
-     if (numeroIngresado < numeroAzar) {
-          mensaje.textContent = "El numero es mas ALTO";
-          mensaje.style.color = "blue";
-     } else {
-          mensaje.textContent = "El numero es mas BAJO";
-          mensaje.style.color = "blue";
-     }
+function obtenerContenido(enlace) {
+    let contenido = {
+        'Barcelona': barcelona,
+        'Roma': roma,
+        'París': paris,
+        'Londres': londres
+    } 
+    return contenido[enlace];
 }
-
-
-
